@@ -2,15 +2,16 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 from characters.models import Character
 from openai import OpenAI
+import openai
 from django.conf import settings
 
 # Create your views here.
 
 class ChatAPIView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
     def post(self, request):
         message = request.data.get('message')
@@ -41,10 +42,13 @@ class ChatAPIView(APIView):
         system_prompt = character.personality_prompt
         try:
             api_key = getattr(settings, 'OPENAI_API_KEY', None)
-            if not api_key or api_key == 'your-openai-api-key-here':
-                # Return a mock response for testing
-                mock_reply = f"Hi! I'm {character.name}. You said: '{message}'. This is a test response since no OpenAI API key is configured."
+            if not api_key:
+                # Fallback to mock response if API key is not present
+                mock_reply = f"You said: {message} 🤖 [Mock AI]"
                 return Response({'reply': mock_reply})
+            
+            # Set the OpenAI API key
+            openai.api_key = settings.OPENAI_API_KEY
             
             client = OpenAI(api_key=api_key)
             response = client.chat.completions.create(
@@ -59,4 +63,6 @@ class ChatAPIView(APIView):
             return Response({'reply': ai_reply})
         except Exception as e:
             print(f"OpenAI API error: {str(e)}")
-            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            # Fallback to mock response on error
+            mock_reply = f"You said: {message} 🤖 [Mock AI]"
+            return Response({'reply': mock_reply})
