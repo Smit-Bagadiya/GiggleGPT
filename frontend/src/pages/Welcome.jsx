@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import GenZButton from '../components/GenZButton';
 
 const Welcome = () => {
   const { isAuthenticated } = useAuth();
@@ -254,57 +255,17 @@ const Welcome = () => {
           transition={{ delay: 1.5, duration: 0.6 }}
         >
           {isAuthenticated ? (
-            /* Get Started Button for authenticated users */
-            <motion.div
-              variants={buttonVariants}
-              whileHover="hover"
-              whileTap="tap"
-            >
-              <Link
-                to="/home"
-                className="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold text-lg sm:text-xl rounded-xl shadow-[0_4px_20px_rgba(0,255,0,0.3)] hover:shadow-[0_8px_30px_rgba(0,255,0,0.5)] transition-all duration-300 relative overflow-hidden group"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <span className="relative z-10 flex items-center gap-2">
-                  🚀 Get Started
-                </span>
-              </Link>
-            </motion.div>
+            <GenZButton as={Link} to="/home" className="w-auto px-8 py-4 text-xl">
+              🚀 Get Started
+            </GenZButton>
           ) : (
             <>
-              {/* Login Button */}
-              <motion.div
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <Link
-                  to="/login"
-                  className="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold text-lg sm:text-xl rounded-xl shadow-[0_4px_20px_rgba(0,255,255,0.3)] hover:shadow-[0_8px_30px_rgba(0,255,255,0.5)] transition-all duration-300 relative overflow-hidden group"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <span className="relative z-10 flex items-center gap-2">
-                    🔐 Login
-                  </span>
-                </Link>
-              </motion.div>
-
-              {/* Sign Up Button */}
-              <motion.div
-                variants={buttonVariants}
-                whileHover="hover"
-                whileTap="tap"
-              >
-                <Link
-                  to="/signup"
-                  className="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white font-bold text-lg sm:text-xl rounded-xl shadow-[0_4px_20px_rgba(255,0,255,0.3)] hover:shadow-[0_8px_30px_rgba(255,0,255,0.5)] transition-all duration-300 relative overflow-hidden group"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <span className="relative z-10 flex items-center gap-2">
-                    ✨ Sign Up
-                  </span>
-                </Link>
-              </motion.div>
+              <GenZButton as={Link} to="/login" className="w-auto px-8 py-4 text-xl">
+                🔐 Login
+              </GenZButton>
+              <GenZButton as={Link} to="/signup" className="w-auto px-8 py-4 text-xl">
+                ✨ Sign Up
+              </GenZButton>
             </>
           )}
         </motion.div>

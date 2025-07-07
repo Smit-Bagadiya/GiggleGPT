@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/axios';
 import { useAuth } from '../context/AuthContext';
+import GenZButton from '../components/GenZButton';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -292,30 +293,19 @@ const Signup = () => {
 
               {/* Sign up button */}
               <motion.div variants={itemVariants}>
-                <motion.button
+                <GenZButton
                   type="submit"
-                  className="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold text-lg rounded-xl shadow-[0_4px_20px_rgba(0,255,255,0.3)] hover:shadow-[0_8px_30px_rgba(0,255,255,0.5)] transition-all duration-300 relative overflow-hidden group"
-                  variants={buttonVariants}
-                  whileHover="hover"
-                  whileTap="tap"
-                  disabled={isLoading}
+                  loading={isLoading}
+                  className="mt-2"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <span className="relative z-10 flex items-center justify-center">
-                    {isLoading ? (
-                      <>
-                        <motion.div
-                          className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full mr-3"
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        />
-                        Creating Account...
-                      </>
-                    ) : (
-                      'Create Account'
-                    )}
-                  </span>
-                </motion.button>
+                  {isLoading ? (
+                    <>
+                      Creating Account...
+                    </>
+                  ) : (
+                    'Create Account'
+                  )}
+                </GenZButton>
               </motion.div>
 
               {/* Login link */}
